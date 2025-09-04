@@ -1,4 +1,4 @@
-package br.furb.compilador.view;
+package br.furb.view;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;

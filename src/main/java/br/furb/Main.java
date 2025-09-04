@@ -1,12 +1,12 @@
-package br.furb.compilador;
+package br.furb;
 
-import br.furb.compilador.componentes.Constants;
-import br.furb.compilador.componentes.LexicalError;
-import br.furb.compilador.componentes.Lexico;
-import br.furb.compilador.componentes.Token;
-import br.furb.compilador.view.ConsolePanel;
-import br.furb.compilador.view.EditorPanel;
-import br.furb.compilador.view.Toolbar;
+import br.furb.componentes.Constants;
+import br.furb.componentes.LexicalError;
+import br.furb.componentes.Lexico;
+import br.furb.componentes.Token;
+import br.furb.view.ConsolePanel;
+import br.furb.view.EditorPanel;
+import br.furb.view.Toolbar;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -17,8 +17,8 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
-import static br.furb.compilador.util.Constantes.CLASSES;
-import static br.furb.compilador.util.Constantes.ESPACO;
+import static br.furb.util.Constantes.CLASSES;
+import static br.furb.util.Constantes.ESPACO;
 
 public class Main extends JFrame {
     private final EditorPanel editorPanel;

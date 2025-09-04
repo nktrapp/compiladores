@@ -1,6 +1,6 @@
-package br.furb.compilador.util;
+package br.furb.util;
 
-import br.furb.compilador.componentes.Constants;
+import br.furb.componentes.Constants;
 
 import java.util.HashMap;
 import java.util.Map;

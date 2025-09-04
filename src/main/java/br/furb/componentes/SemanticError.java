@@ -1,4 +1,4 @@
-package br.furb.compilador.componentes;
+package br.furb.componentes;
 
 public class SemanticError extends AnalysisError {
     public SemanticError(String msg, int position) {
