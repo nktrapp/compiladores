@@ -1,0 +1,78 @@
+#Options
+GenerateScanner = true
+GenerateParser = false
+Language = Java
+ScannerName = Lexico
+ScannerCaseSensitive = true
+ScannerTable = Compact
+Input = String
+#RegularDefinitions
+dig: [0-9]
+min: [a-z]
+mai: [A-Z]
+letra: {mai} | {min}
+pos: [1-9]
+num_opc: {dig}? {dig}? {dig}? {dig}?
+bloco: %% [^%]* %%
+linha: % [^\n]*
+#Tokens
+palavra: {min}{letra}+
+
+//Identificador (variaveis)
+identificador:! ({mai}{min}|{min})+(_ {dig}+)?
+
+//Palavras reservadas:
+pr_add = palavra: "add"
+pr_and = palavra: "and"
+pr_begin = palavra: "begin"
+pr_bool = palavra: "bool"
+pr_count = palavra: "count"
+pr_delete = palavra: "delete"
+pr_do = palavra: "do"
+pr_elementOf = palavra: "elementOf"
+pr_else = palavra: "else"
+pr_end = palavra: "end"
+pr_false = palavra: "false"
+pr_float = palavra: "float"
+pr_if = palavra: "if"
+pr_int = palavra: "int"
+pr_list = palavra: "list"
+pr_not = palavra: "not"
+pr_or = palavra: "or"
+pr_print = palavra: "print"
+pr_read = palavra: "read"
+pr_size = palavra: "size"
+pr_string = palavra: "string"
+pr_true = palavra: "true"
+pr_until = palavra: "until"
+
+//Constantes
+cint: 0|{pos}{num_opc}
+cfloat: (0|{pos}{num_opc})\.{num_opc}{dig}
+cstring: \"[^\n\"\\]*\"
+
+
+//Comentário bloco
+com_bloco:! {bloco}
+
+//Comentário linha
+:!{linha}
+
+//Simbolos
+"+"
+"-"
+"*"
+"/"
+"=="
+"~="
+"<"
+">"
+"="
+"<-"
+"("
+")"
+";"
+","
+
+//Especiais
+:[\s\t\n\r]
