@@ -33,7 +33,6 @@ public class Main extends JFrame {
         editorPanel = new EditorPanel();
         consolePanel = new ConsolePanel();
 
-        setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setSize(1500, 800);
         setMinimumSize(new Dimension(1500, 800));
         setMaximumSize(new Dimension(1500, 800));
@@ -80,49 +79,65 @@ public class Main extends JFrame {
         input.put(KeyStroke.getKeyStroke('N', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()), "novo");
         actions.put("novo", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) { actionNovo(); }
+            public void actionPerformed(ActionEvent e) {
+                actionNovo();
+            }
         });
 
         input.put(KeyStroke.getKeyStroke('O', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()), "abrir");
         actions.put("abrir", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) { actionAbrir(); }
+            public void actionPerformed(ActionEvent e) {
+                actionAbrir();
+            }
         });
 
         input.put(KeyStroke.getKeyStroke('S', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()), "salvar");
         actions.put("salvar", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) { actionSalvar(false); }
+            public void actionPerformed(ActionEvent e) {
+                actionSalvar(false);
+            }
         });
 
         input.put(KeyStroke.getKeyStroke('C', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()), "copiar");
         actions.put("copiar", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) { editorPanel.getEditorTextArea().copy(); }
+            public void actionPerformed(ActionEvent e) {
+                editorPanel.getEditorTextArea().copy();
+            }
         });
 
         input.put(KeyStroke.getKeyStroke('V', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()), "colar");
         actions.put("colar", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) { editorPanel.getEditorTextArea().paste(); }
+            public void actionPerformed(ActionEvent e) {
+                editorPanel.getEditorTextArea().paste();
+            }
         });
 
         input.put(KeyStroke.getKeyStroke('X', Toolkit.getDefaultToolkit().getMenuShortcutKeyMaskEx()), "recortar");
         actions.put("recortar", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) { editorPanel.getEditorTextArea().cut(); }
+            public void actionPerformed(ActionEvent e) {
+                editorPanel.getEditorTextArea().cut();
+            }
         });
 
         input.put(KeyStroke.getKeyStroke("F7"), "compilar");
         actions.put("compilar", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) { actionCompilar(); }
+            public void actionPerformed(ActionEvent e) {
+                actionCompilar();
+            }
         });
 
         input.put(KeyStroke.getKeyStroke("F1"), "equipe");
         actions.put("equipe", new AbstractAction() {
             @Override
-            public void actionPerformed(ActionEvent e) { actionEquipe(); }
+            public void actionPerformed(ActionEvent e) {
+                actionEquipe();
+            }
         });
     }
 
@@ -135,9 +150,6 @@ public class Main extends JFrame {
     }
 
     private void actionAbrir() {
-        if (hasUnsavedChanges()) {
-            return;
-        }
         var fileChooser = new JFileChooser();
         var filter = new FileNameExtensionFilter("Text files", "txt");
         fileChooser.setFileFilter(filter);
@@ -178,6 +190,7 @@ public class Main extends JFrame {
                     writer.write(editorPanel.getText());
                     currentFile = fileToSave;
                     updateStatus(fileToSave);
+                    consolePanel.setText("");
                 } catch (IOException ex) {
                     JOptionPane.showMessageDialog(this, "Erro ao salvar arquivo: " + ex.getMessage(),
                             "Erro", JOptionPane.ERROR_MESSAGE);
@@ -186,6 +199,7 @@ public class Main extends JFrame {
         } else {
             try (var writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(currentFile), StandardCharsets.UTF_8))) {
                 writer.write(editorPanel.getText());
+                consolePanel.setText("");
             } catch (IOException ex) {
                 JOptionPane.showMessageDialog(this, "Erro ao salvar arquivo: " + ex.getMessage(),
                         "Erro", JOptionPane.ERROR_MESSAGE);
@@ -258,23 +272,6 @@ public class Main extends JFrame {
         statusLabel.setText("Pasta: " + folder + "  |  Arquivo: " + name);
     }
 
-    private String readFile(File file) throws IOException {
-        try (var reader = new BufferedReader(new InputStreamReader(new FileInputStream(file), StandardCharsets.UTF_8))) {
-            var content = new StringBuilder();
-            String line;
-            while ((line = reader.readLine()) != null) {
-                content.append(line).append("\n");
-            }
-            return content.toString();
-        }
-    }
-
-    private void writeFile(File file, String content) throws IOException {
-        try (var writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file), StandardCharsets.UTF_8))) {
-            writer.write(content);
-        }
-    }
-
     private int getLinhaFromPos(int pos) {
         var texto = editorPanel.getText();
         var linhas = 1;
@@ -308,11 +305,6 @@ public class Main extends JFrame {
         }
 
         return simboloInvalido.toString();
-    }
-
-    private boolean hasUnsavedChanges() {
-        // implementar lógica para verificar se há alterações não salvas
-        return false;
     }
 
     public static void main(String[] args) {
