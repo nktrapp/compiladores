@@ -1,4 +1,4 @@
-package br.furb.componentes;
+package br.furb.compilador.componentes;
 
 public class Lexico implements Constants {
     private int position;

@@ -1,4 +1,4 @@
-package br.furb.componentes;
+package br.furb.compilador.componentes;
 
 public interface Constants extends ScannerConstants {
     int EPSILON = 0;

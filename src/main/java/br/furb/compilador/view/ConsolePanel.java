@@ -1,4 +1,4 @@
-package br.furb.view;
+package br.furb.compilador.view;
 
 import javax.swing.*;
 import java.awt.*;

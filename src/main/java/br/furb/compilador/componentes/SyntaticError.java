@@ -1,4 +1,4 @@
-package br.furb.componentes;
+package br.furb.compilador.componentes;
 
 public class SyntaticError extends AnalysisError {
     public SyntaticError(String msg, int position) {

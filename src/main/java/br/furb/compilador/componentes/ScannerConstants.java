@@ -1,4 +1,4 @@
-package br.furb.componentes;
+package br.furb.compilador.componentes;
 
 public interface ScannerConstants {
     int[] SCANNER_TABLE_INDEXES =

@@ -1,4 +1,4 @@
-package br.furb.componentes;
+package br.furb.compilador.componentes;
 
 public class LexicalError extends AnalysisError {
     public LexicalError(String msg, int position) {
