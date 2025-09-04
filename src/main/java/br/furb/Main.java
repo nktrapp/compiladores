@@ -289,13 +289,22 @@ public class Main extends JFrame {
     private String getSimboloFromPos(int pos) {
         var texto = editorPanel.getText();
         var simboloInvalido = new StringBuilder();
-        char atual = texto.charAt(pos);
-        var tam = texto.length();
-        var idx = pos;
-        simboloInvalido.append(texto.charAt(idx++));
-        while (idx < tam - 1 && atual != ESPACO && atual != '\n') {
-            simboloInvalido.append(texto.charAt(idx++));
+        int tam = texto.length();
+
+        if (pos < 0 || pos >= tam) {
+            return "";
+        }
+
+        int idx = pos;
+        char atual = texto.charAt(idx);
+        simboloInvalido.append(atual);
+
+        while (++idx < tam) {
             atual = texto.charAt(idx);
+            if (atual == ESPACO || atual == '\n') {
+                break;
+            }
+            simboloInvalido.append(atual);
         }
 
         return simboloInvalido.toString();
