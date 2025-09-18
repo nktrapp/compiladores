@@ -37,7 +37,6 @@ public class Constantes {
         put(Constants.t_cint, "constante_int");
         put(Constants.t_cfloat, "constante_float");
         put(Constants.t_cstring, "constante_string");
-        put(Constants.t_com_bloco, "bloco de comentário");
         put(Constants.t_TOKEN_31, "símbolo especial");
         put(Constants.t_TOKEN_32, "símbolo especial");
         put(Constants.t_TOKEN_33, "símbolo especial");
@@ -50,7 +49,6 @@ public class Constantes {
         put(Constants.t_TOKEN_40, "símbolo especial");
         put(Constants.t_TOKEN_41, "símbolo especial");
         put(Constants.t_TOKEN_42, "símbolo especial");
-        put(Constants.t_TOKEN_43, "símbolo especial");
     }};
 
 
