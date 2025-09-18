@@ -7,7 +7,7 @@ ParserName = Sintatico
 SemanticName = Semantico
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = String
+Input = Stream
 Parser = LL
 #RegularDefinitions
 dig: [0-9]
@@ -54,7 +54,7 @@ cstring: \"[^\n\"\\]*\"
 
 
 //Comentário bloco
-com_bloco:! {bloco}
+:! {bloco}
 
 //Comentário linha
 :!{linha}
