@@ -10,7 +10,6 @@ public class Constantes {
     public static final char ESPACO = ' ';
 
     public static final Map<Integer, String> CLASSES = new HashMap<>() {{
-        put(Constants.t_palavra, "");
         put(Constants.t_identificador, "identificador");
         put(Constants.t_pr_add, "palavra reservada");
         put(Constants.t_pr_and, "palavra reservada");
@@ -52,7 +51,6 @@ public class Constantes {
         put(Constants.t_TOKEN_41, "símbolo especial");
         put(Constants.t_TOKEN_42, "símbolo especial");
         put(Constants.t_TOKEN_43, "símbolo especial");
-        put(Constants.t_TOKEN_44, "símbolo especial");
     }};
 
 

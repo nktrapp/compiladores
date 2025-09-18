@@ -1,9 +1,6 @@
 package br.furb.compilador;
 
-import br.furb.compilador.componentes.Constants;
-import br.furb.compilador.componentes.LexicalError;
-import br.furb.compilador.componentes.Lexico;
-import br.furb.compilador.componentes.Token;
+import br.furb.compilador.componentes.*;
 import br.furb.compilador.view.ConsolePanel;
 import br.furb.compilador.view.EditorPanel;
 import br.furb.compilador.view.Toolbar;
@@ -210,40 +207,52 @@ public class Main extends JFrame {
     private void actionCompilar() {
         var codigoFonte = editorPanel.getText();
         var lexico = new Lexico();
+        var sintatico = new Sintatico();
+        var semantico = new Semantico();
         lexico.setInput(codigoFonte);
-        var builder = new StringBuilder();
-
         try {
-            builder.append("linha\t\t\tclasse                     lexema\n");
-
-            Token token;
-            while ((token = lexico.nextToken()) != null) {
-                var tokenId = token.getId();
-
-                if (tokenId == Constants.t_com_bloco) {
-                    continue;
-                }
-
-                var classe = CLASSES.get(tokenId);
-                var linha = getLinhaFromPos(token.getPosition());
-
-                builder.append(linha).append("\t\t\t");
-                builder.append(stripTo(classe, 25));
-                builder.append(token.getLexeme()).append("\n");
-            }
-
-            builder.append("programa compilado com sucesso.");
-            consolePanel.setText(builder.toString());
+            sintatico.parse(lexico, semantico);
+            consolePanel.setText("Programa compilado com sucesso.");
         } catch (LexicalError e) {
-            var erro = new StringBuilder();
-            erro.append("Linha: ");
-            erro.append(getLinhaFromPos(e.getPosition()));
-            erro.append(" ");
-            erro.append(getSimboloFromPos(e.getPosition()));
-            erro.append(" ");
-            erro.append(e.getMessage());
-            consolePanel.setText(erro.toString());
+            handleLexicalError(e);
+        } catch (SyntaticError e) {
+            handleSyntaticError(e);
+        } catch (SemanticError e) {
+            handleSemanticError(e);
         }
+    }
+
+    private void handleSemanticError(SemanticError e) {
+        consolePanel.setText("Aiin zé da mangãnn.");
+    }
+
+    private void handleSyntaticError(SyntaticError e) {
+        var erro = new StringBuilder();
+        erro.append("Linha: ");
+        erro.append(getLinhaFromPos(e.getPosition()));
+        erro.append(" identificador: \"");
+
+        var token = getSimboloFromPos(e.getPosition());
+        if ("$".equals(token)) {
+            token = "EOF";
+        }
+
+        erro.append(token);
+        erro.append("\" ");
+        erro.append(e.getMessage());
+        consolePanel.setText(erro.toString());
+
+    }
+
+    private void handleLexicalError(LexicalError e) {
+        var erro = new StringBuilder();
+        erro.append("Linha: ");
+        erro.append(getLinhaFromPos(e.getPosition()));
+        erro.append(" ");
+        erro.append(getSimboloFromPos(e.getPosition()));
+        erro.append(" ");
+        erro.append(e.getMessage());
+        consolePanel.setText(erro.toString());
     }
 
     public static String stripTo(String str, int tam) {
