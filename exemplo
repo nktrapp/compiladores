@@ -1,0 +1,35 @@
+begin
+  string bla;
+  list(string, 5) bla_2;
+
+  bla_2 add("111", "bla_2");
+  bla_2 delete("");
+
+
+  if ""
+    bla = "1";
+  else
+    bla = "2";
+  end;
+
+  do
+    bla = "3";
+  until "";
+
+  print("bla 1", "bla 2", "bla 3");
+  print("bla");
+  read("bla: ", bla);
+  read(bla);
+
+  % a
+%%
+aa
+%%
+
+end
+
+% Comentario linha
+
+%%
+Comentario bloco
+%%
