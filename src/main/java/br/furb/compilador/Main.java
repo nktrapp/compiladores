@@ -209,7 +209,7 @@ public class Main extends JFrame {
         var lexico = new Lexico();
         var sintatico = new Sintatico();
         var semantico = new Semantico();
-        lexico.setInput(codigoFonte);
+        lexico.setInput(new StringReader(codigoFonte));
         try {
             sintatico.parse(lexico, semantico);
             consolePanel.setText("Programa compilado com sucesso.");
