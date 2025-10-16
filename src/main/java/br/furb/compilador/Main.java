@@ -14,6 +14,7 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
+import static br.furb.compilador.componentes.ScannerConstants.SCANNER_ERROR;
 import static br.furb.compilador.util.Constantes.CLASSES;
 import static br.furb.compilador.util.Constantes.ESPACO;
 
@@ -230,15 +231,14 @@ public class Main extends JFrame {
         var erro = new StringBuilder();
         erro.append("Linha: ");
         erro.append(getLinhaFromPos(e.getPosition()));
-        erro.append(" identificador: \"");
+        erro.append(" encontrado: ");
 
         var token = getSimboloFromPos(e.getPosition());
         if ("$".equals(token)) {
             token = "EOF";
         }
 
-        erro.append(token);
-        erro.append("\" ");
+        erro.append(token).append(" ");
         erro.append(e.getMessage());
         consolePanel.setText(erro.toString());
 
@@ -249,8 +249,10 @@ public class Main extends JFrame {
         erro.append("Linha: ");
         erro.append(getLinhaFromPos(e.getPosition()));
         erro.append(" ");
-        erro.append(getSimboloFromPos(e.getPosition()));
-        erro.append(" ");
+        if (!SCANNER_ERROR[2].equals(e.getMessage())) {
+            erro.append(getSimboloFromPos(e.getPosition()));
+            erro.append(" ");
+        }
         erro.append(e.getMessage());
         consolePanel.setText(erro.toString());
     }
