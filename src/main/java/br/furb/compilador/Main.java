@@ -234,6 +234,7 @@ public class Main extends JFrame {
         erro.append(" encontrado: ");
 
         var token = getSimboloFromPos(e.getPosition());
+        token = token.startsWith("\"") ? CLASSES.get(Constants.t_cstring) : token;
         if ("$".equals(token)) {
             token = "EOF";
         }
