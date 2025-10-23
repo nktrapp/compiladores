@@ -250,11 +250,17 @@ public class Main extends JFrame {
         erro.append("Linha: ");
         erro.append(getLinhaFromPos(e.getPosition()));
         erro.append(" ");
-        if (!SCANNER_ERROR[2].equals(e.getMessage())) {
+        if (!SCANNER_ERROR[2].equals(e.getMessage()) && !SCANNER_ERROR[29].equals(e.getMessage())) {
             erro.append(getSimboloFromPos(e.getPosition()));
             erro.append(" ");
         }
-        erro.append(e.getMessage());
+
+        if (SCANNER_ERROR[29].equals(e.getMessage())) {
+            erro.append("comentário inválido ou não finalizado.");
+        } else {
+            erro.append(e.getMessage());
+        }
+
         consolePanel.setText(erro.toString());
     }
 
@@ -310,7 +316,7 @@ public class Main extends JFrame {
 
         while (++idx < tam) {
             atual = texto.charAt(idx);
-            if (atual == ESPACO || atual == '\n') {
+            if (atual == ESPACO || atual == '\n' || !Character.isAlphabetic(atual)) {
                 break;
             }
             simboloInvalido.append(atual);
