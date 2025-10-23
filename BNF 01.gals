@@ -47,7 +47,7 @@ pr_until     = identificador: "until"
 
 // Constantes
 cint:   0|{pos}{num_opc}
-cfloat: (0|{pos}{num_opc})\.({num_opc}{dig} | 0)
+cfloat: (0|{pos}{num_opc})\.({num_opc}{pos} | 0)
 cstring: \"[^\n\"\\]*\"
 
 // Comentários
