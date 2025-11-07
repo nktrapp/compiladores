@@ -17,7 +17,20 @@ public class Semantico implements Constants {
     private final Stack<String> rotulos = new Stack<>();
     private int numeroRotulo = 1;
 
+    private final Set<String> RELACIONAIS = new HashSet<>(List.of("==", "~=", ">", "<"));
+
     public void executeAction(int action, Token token) throws SemanticError {
+        try {
+            handle(action, token);
+
+        } catch (SemanticError e) {
+            throw e;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+    }
+
+    private void handle(int action, Token token) throws SemanticError {
         switch (action) {
             case 100:
                 metodo100(token);
@@ -199,10 +212,11 @@ public class Semantico implements Constants {
 
     public void metodo113(Token token) {
         desempilharDoisEmpilharDeVolta(token.getLexeme());
-
+        var tipo = tipos.pop();
     }
 
     public void metodo114(Token token) {
+        System.out.println(token.getLexeme());
     }
 
     public void metodo115(Token token) {
@@ -372,14 +386,17 @@ public class Semantico implements Constants {
         var tipo1 =  tipos.pop();
         var tipo2 = tipos.pop();
 
+        if (RELACIONAIS.contains(operacao)) {
+            tipos.push(Tipo.BOOL);
+            return;
+        }
+
         if (Tipo.INT64.equals(tipo1) && Tipo.INT64.equals(tipo2)) {
             tipos.push(Tipo.INT64);
+            return;
         }
 
-        if (Tipo.FLOAT64.equals(tipo1)) {
-
-        }
-
+        tipos.push(Tipo.FLOAT64);
     }
 
     private String proximoRotulo() {
