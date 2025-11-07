@@ -8,6 +8,11 @@ import java.util.Map;
 public class Constantes {
 
     public static final char ESPACO = ' ';
+    public static final String INT = "int";
+    public static final String FLOAT = "float";
+    public static final String STRING = "string";
+    public static final String BOOL = "bool";
+
 
     public static final Map<Integer, String> CLASSES = new HashMap<>() {{
         put(Constants.t_identificador, "identificador");

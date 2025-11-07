@@ -11,6 +11,8 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.io.*;
+import java.net.URISyntaxException;
+import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.Objects;
 
@@ -211,17 +213,45 @@ public class Main extends JFrame {
         var sintatico = new Sintatico();
         var semantico = new Semantico();
         lexico.setInput(new StringReader(codigoFonte));
+
         try {
             sintatico.parse(lexico, semantico);
             consolePanel.setText("Programa compilado com sucesso.");
+            criarArquivoIlasm(semantico);
         } catch (LexicalError e) {
             handleLexicalError(e);
         } catch (SyntaticError e) {
             handleSyntaticError(e);
         } catch (SemanticError e) {
             handleSemanticError(e);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
         }
     }
+
+    private void criarArquivoIlasm(Semantico semantico) {
+        var ilasmCode = semantico.getIlasmCode();
+        var outputFile = getOutputFile();
+
+        try (var writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outputFile), StandardCharsets.UTF_8))) {
+            writer.write(ilasmCode);
+        } catch (IOException ex) {
+            System.err.println("Erro ao escrever arquivo: " + ex.getMessage());
+        }
+    }
+
+    private File getOutputFile() {
+        var location = System.getProperty("user.dir");
+        if (currentFile == null) {
+            return new File(location, "program.il");
+        }
+        var parentDir = currentFile.getParentFile() != null
+                ? currentFile.getParentFile()
+                : new File(location);
+        var baseName = currentFile.getName().replaceFirst("\\.[^.]+$", "");
+        return new File(parentDir, baseName + ".il");
+    }
+
 
     private void handleSemanticError(SemanticError e) {
         consolePanel.setText("Aiin zé da mangãnn.");

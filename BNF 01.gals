@@ -7,7 +7,7 @@ ParserName = Sintatico
 SemanticName = Semantico
 ScannerCaseSensitive = true
 ScannerTable = Compact
-Input = Stream
+Input = String
 Parser = LL
 #RegularDefinitions
 dig: [0-9]
@@ -113,14 +113,14 @@ cstring: \"[^\n\"\\]*\"
 <fator_>
 
 #Grammar
-<gramatica> ::= pr_begin <lista_instrucoes> pr_end ;
+<gramatica> ::= #100 pr_begin <lista_instrucoes> pr_end #101;
 
 <lista_instrucoes> ::= <instrucao> ";" <lista_instrucoes_opc> ;
 <lista_instrucoes_opc> ::= <lista_instrucoes> | î ;
 
 <instrucao> ::= <comando> | <declaracao_variaveis> ;
 
-<comando> ::= identificador <comando_atribuicao_operacao_lista>
+<comando> ::= identificador #121 <comando_atribuicao_operacao_lista>
             | <entrada>
             | <saida>
             | <condicional>
@@ -128,52 +128,52 @@ cstring: \"[^\n\"\\]*\"
             ;
 <comando_atribuicao_operacao_lista> ::= <atribuicao_diferente> | <operacao_lista> ;
 
-<declaracao_variaveis> ::= <tipo> <lista_identificadores> ;
-<tipo_primitivo> ::= pr_int | pr_float | pr_bool | pr_string ;
+<declaracao_variaveis> ::= <tipo> <lista_identificadores> #119 ;
+<tipo_primitivo> ::= pr_int #120 | pr_float #120 | pr_bool #120 | pr_string #120 ;
 <tipo> ::= <tipo_primitivo> | pr_list "(" <tipo_primitivo> "," cint ")" ;
 
-<lista_identificadores> ::= identificador <lista_identificadores_opc> ;
+<lista_identificadores> ::= identificador #121 <lista_identificadores_opc> ;
 <lista_identificadores_opc> ::= "," <lista_identificadores> | î ;
 
-<atribuicao_diferente> ::= "=" <expressao> | "<-" <expressao> ;
+<atribuicao_diferente> ::= "=" <expressao> #122 | "<-" <expressao> #122 ;
 
 <operacao_lista> ::= pr_add "(" <expressao> "," <expressao> ")"
                    | pr_delete "(" <expressao> ")"
                    ;
 
 <entrada> ::= pr_read "(" <lista_entrada> ")" ;
-<parametro_entrada> ::= identificador | cstring "," identificador ;
+<parametro_entrada> ::= identificador #123 | cstring #124 ","  identificador #123 ;
 <lista_entrada> ::= <parametro_entrada> <lista_entrada_opc> ;
 <lista_entrada_opc> ::= "," <lista_entrada> | î ;
 
-<saida> ::= pr_print "(" <lista_expressoes> ")" ;
-<lista_expressoes> ::= <expressao> <lista_expressoes_opc> ;
+<saida> ::= pr_print "(" <lista_expressoes> ")" #118 ;
+<lista_expressoes> ::= <expressao> #102 <lista_expressoes_opc> ;
 <lista_expressoes_opc> ::= "," <lista_expressoes> | î ;
 
-<condicional> ::= pr_if <expressao> <lista_comandos> <else_opc> pr_end ;
+<condicional> ::= pr_if <expressao> #125 <lista_comandos> <else_opc> pr_end #126 ;
 <lista_comandos> ::= <comando> ";" <lista_comandos_opc> ;
 <lista_comandos_opc> ::= <lista_comandos> | î ;
-<else_opc> ::= î | pr_else <lista_comandos> ;
+<else_opc> ::= î | pr_else #127 <lista_comandos> ;
 
-<repeticao> ::= pr_do <lista_comandos> pr_until <expressao> ;
+<repeticao> ::= pr_do #128 <lista_comandos> pr_until <expressao> #129 ;
 
 <expressao> ::= <valor> <expressao_> ;
-<expressao_> ::= î | pr_and <valor> <expressao_> | pr_or <valor> <expressao_> ;
-<valor> ::= <relacional> | pr_true | pr_false | pr_not <valor> ;
+<expressao_> ::= î | pr_and <valor> #113 <expressao_> | pr_or <valor> #114 <expressao_> ;
+<valor> ::= <relacional> | pr_true #115 | pr_false #116 | pr_not <valor> #117 ;
 <relacional> ::= <aritmetica> <relacional_> ;
-<relacional_> ::= î | <operador_relacional> <aritmetica> ;
-<operador_relacional> ::= "==" | "~=" | "<" | ">" ;
+<relacional_> ::= î | <operador_relacional> #111 <aritmetica> #112 ;
+<operador_relacional>::= "==" | "~=" | "<" | ">" ;
 <aritmetica> ::= <termo> <aritmetica_> ;
-<aritmetica_> ::= î | "+" <termo> <aritmetica_> | "-" <termo> <aritmetica_> ;
+<aritmetica_> ::= î | "+" <termo> #106 <aritmetica_> | "-" <termo> #107 <aritmetica_> ;
 <termo> ::= <fator> <termo_> ;
-<termo_> ::= î | "*" <fator> <termo_> | "/" <fator> <termo_> ;
-<fator> ::= identificador <fator_>
-          | cint
-          | cfloat
-          | cstring
-          | "(" <expressao> ")"
-          | "+" <fator>
-          | "-" <fator>
-          ;
+<termo_> ::= î | "*" <fator> #108 <termo_> | "/" <fator> #109 <termo_> ;
+<fator> ::= identificador #130 <fator_> |
+	cint #103 |
+	cfloat #104 |
+	cstring #105 |
+		"(" <expressao> ")" |
+		"+" <fator> |
+	    "-" <fator> #110
+	    ;
 <fator_> ::= î | pr_count | pr_size | pr_elementOf "(" <expressao> ")" ;
 
