@@ -149,7 +149,7 @@ public class Semantico implements Constants {
             appendCode("conv.i8");
         }
 
-        var print = "[mscorlib]System.Console::Write(" +
+        var print = "call void [mscorlib]System.Console::Write(" +
                 tipo.getIlasmValue() +
                 ")";
 
@@ -200,23 +200,23 @@ public class Semantico implements Constants {
     }
 
     public void metodo111(Token token) {
-        operadoresRelacionais.push(OperadorRelacional.valueOf(token.getLexeme()));
+        operadoresRelacionais.push(OperadorRelacional.fromOperador(token.getLexeme()));
     }
 
     public void metodo112(Token token) {
-        desempilharDoisEmpilharDeVolta(token.getLexeme());
-
-        var relacional = OperadorRelacional.valueOf(token.getLexeme());
+        var relacional = operadoresRelacionais.pop();
+        desempilharDoisEmpilharDeVolta(relacional.getOperador());
         appendCode(relacional.getIlasmCode());
     }
 
     public void metodo113(Token token) {
         desempilharDoisEmpilharDeVolta(token.getLexeme());
-        var tipo = tipos.pop();
+        appendCode("and");
     }
 
     public void metodo114(Token token) {
-        System.out.println(token.getLexeme());
+        desempilharDoisEmpilharDeVolta(token.getLexeme());
+        appendCode("or");
     }
 
     public void metodo115(Token token) {
@@ -230,11 +230,14 @@ public class Semantico implements Constants {
     }
 
     public void metodo117(Token token) {
-        appendCode("not");
+        appendCode("ldc.i4.1");
+        appendCode("xor");
+
     }
 
     public void metodo118(Token token) {
-        appendCode("[mscorlib]System.Console::WriteLine()");
+        appendCode("ldstr \"\\n\"");
+        appendCode("call void [mscorlib]System.Console::Write(string)");
     }
 
     public void metodo119(Token token) {
@@ -244,6 +247,7 @@ public class Semantico implements Constants {
             var tipo = tipos.pop();
             tabelaIdentificadores.put(id, tipo);
             locals.append(tipo.getIlasmValue());
+            locals.append(" ");
             locals.append(id);
             locals.append(", ");
         });
@@ -320,7 +324,6 @@ public class Semantico implements Constants {
 
     public void metodo125(Token token) throws SemanticError {
         var tipo = tipos.pop();
-
         if (!Tipo.BOOL.equals(tipo)) {
             throw new SemanticError("expressão incompatível em comando de seleção", token.getPosition());
         }
@@ -370,7 +373,7 @@ public class Semantico implements Constants {
 
         appendCode("ldloc " + token.getLexeme());
         if (Tipo.INT64.equals(tipo)) {
-            appendCode("conv.i8");
+            appendCode("conv.r8");
         }
     }
 
@@ -395,7 +398,10 @@ public class Semantico implements Constants {
             tipos.push(Tipo.INT64);
             return;
         }
-
+        if(Tipo.BOOL.equals(tipo1) && Tipo.BOOL.equals(tipo2)){
+            tipos.push(Tipo.BOOL);
+            return;
+        }
         tipos.push(Tipo.FLOAT64);
     }
 

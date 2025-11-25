@@ -254,25 +254,32 @@ public class Main extends JFrame {
 
 
     private void handleSemanticError(SemanticError e) {
-        consolePanel.setText("Aiin zé da mangãnn.");
+        var erro = new StringBuilder();
+        erro.append("linha ");
+        erro.append(getLinhaFromPos(e.getPosition()));
+        erro.append(": ");
+        erro.append(e.getMessage());
+        consolePanel.setText(erro.toString());
     }
 
     private void handleSyntaticError(SyntaticError e) {
         var erro = new StringBuilder();
-        erro.append("Linha: ");
+        erro.append("linha ");
         erro.append(getLinhaFromPos(e.getPosition()));
-        erro.append(" encontrado: ");
+        erro.append(": encontrado ");
 
-        var token = getSimboloFromPos(e.getPosition());
-        token = token.startsWith("\"") ? CLASSES.get(Constants.t_cstring) : token;
-        if ("$".equals(token)) {
-            token = "EOF";
+        var lexeme = e.getLexeme();
+        if (lexeme == null || lexeme.isEmpty()) {
+            lexeme = getSimboloFromPos(e.getPosition());
         }
 
-        erro.append(token).append(" ");
+        if ("$".equals(lexeme)) {
+            lexeme = "EOF";
+        }
+
+        erro.append(lexeme).append(" ");
         erro.append(e.getMessage());
         consolePanel.setText(erro.toString());
-
     }
 
     private void handleLexicalError(LexicalError e) {
