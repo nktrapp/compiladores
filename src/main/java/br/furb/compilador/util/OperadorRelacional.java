@@ -2,7 +2,7 @@ package br.furb.compilador.util;
 
 public enum OperadorRelacional {
 
-    IGUAL("==", "eq"),
+    IGUAL("==", "ceq"),
     DIFERENTE("~=", "neq"),
     MAIOR(">", "cgt"),
     MENOR("<", "clt");
