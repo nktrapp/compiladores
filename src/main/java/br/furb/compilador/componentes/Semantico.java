@@ -272,6 +272,7 @@ public class Semantico implements Constants {
                 break;
             case "string":
                 tipos.push(Tipo.STRING);
+                break;
             case "list":
                 tipos.push(Tipo.LIST);
                 break;
